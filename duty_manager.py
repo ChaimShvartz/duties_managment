@@ -1,0 +1,26 @@
+from utils import *
+
+def add_duty_to_soldier(soldier_id: int, duty_name: str, day: str) -> None:
+    soldier = find_soldier_by_id(id)
+    if not soldier:
+        raise KeyError
+    if not is_valid_day(day) or soldier_has_duty(soldier, duty_name):
+        raise ValueError
+    soldier["duties"].append({"name": duty_name, "day": day, "status": "pending"})
+
+def update_duty_status(soldier_id: int, duty_name: str, new_status: str) -> None:
+    soldier = find_soldier_by_id(id)
+    if not soldier:
+        raise KeyError
+    duty = find_duty_by_name(soldier["duties"], duty_name)
+    if not duty:
+        raise KeyError
+    if not is_valid_status(new_status):
+        raise ValueError
+    duty["status"] = new_status
+
+def get_soldier_duties(soldier_id: int) -> list:
+    soldier = find_soldier_by_id(id)
+    if not soldier:
+        raise KeyError
+    return soldier["duties"]

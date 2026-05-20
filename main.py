@@ -25,15 +25,18 @@ def handle_add_soldier() -> None:
     name = input("Input soldier's name: ")
     try:
         add_soldier(id, name)
-    except ValueError:
-        print("Invalid input")
+        print(f"V - {name} added.")
+    except ValueError as e:
+        print('X -', e)
 
 def handle_remove_soldier() -> None:
     id = int(input("Input soldier's ID: "))
     try:
         remove_soldier(id)
-    except KeyError:
-        print("Soldier or duty not found")
+        print("V - the soldier removed.")
+    except KeyError as e:
+        print('X -', e)
+
 
 def handle_view_soldiers() -> None:
     soldiers = get_all_soldiers()
@@ -45,10 +48,12 @@ def handle_add_duty() -> None:
     day = input("Enter duty's day: ")
     try:
         add_duty_to_soldier(id, duty_name, day)
-    except KeyError:
-        print("Soldier or duty not found")
-    except ValueError:
-        print("Invalid input")
+        print(f"V - {duty_name} adds.")
+    except KeyError as e:
+        print('X -', e)
+    except ValueError as e:
+        print('X -', e)
+
 
 def handle_update_duty_status() -> None:
     id = int(input("Enter soldier's Id: "))
@@ -56,20 +61,25 @@ def handle_update_duty_status() -> None:
     new_status = input("Enter the status you want change for(completed/missed): ")
     try:
         update_duty_status(id, duty, new_status)
-    except KeyError:
-        print("Soldier or duty not found")
-    except ValueError:
-        print("Invalid status")
+        print(f"V - {duty}'s status updated.")
+    except KeyError as e:
+        print(f"X -", e)
+    except ValueError as e:
+        print(f"X -", e)
 
 
 def handle_view_soldier_duties() -> None:
     id = int(input("Enter soldier's ID: "))
     try:
         soldiers = get_soldier_duties(id)
-        for soldier in soldiers:
-            print(*soldier, sep='\n')
-    except KeyError:
-        print("Soldier not found")
+        if soldiers:
+            print("V - soldiers list:")
+            for soldier in soldiers:
+                print(*soldier, sep='\n')
+        else:
+            print("V - no soldiers yet")
+    except KeyError as e:
+        print(f"X -", e)
 
 def main() -> None:
     to_exit = False

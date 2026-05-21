@@ -1,3 +1,5 @@
+# Link to GitHub - https://github.com/ChaimShvartz/duties_managment
+
 from os import system
 from utils import *
 from soldier_manager import *

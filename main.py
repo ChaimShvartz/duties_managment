@@ -18,69 +18,64 @@ def show_menu() -> None:
     
     """)
 
-
 def get_user_choice() -> str:
     return input("Choose an option: ")
     
 def handle_add_soldier() -> None:
-    id = int(input("Input soldier's ID: "))
-    name = input("Input soldier's name: ")
     try:
-        add_soldier(id, name)
-        print(f"V - {name} added.")
+        soldier_id = int(input("Input soldier's ID: "))
+        name = input("Input soldier's name: ")
+        add_soldier(soldier_id, name)
+        print(f"V - {name.title()} added.")
     except ValueError as e:
         print('X -', e)
 
 def handle_remove_soldier() -> None:
-    id = int(input("Input soldier's ID: "))
     try:
-        remove_soldier(id)
+        soldier_id = int(input("Input soldier's ID: "))
+        remove_soldier(soldier_id)
         print("V - the soldier removed.")
-    except KeyError as e:
+    except (KeyError, ValueError) as e:
         print('X -', e)
-
 
 def handle_view_soldiers() -> None:
     soldiers = get_all_soldiers()
-    print(*soldiers, sep='\n')
+    if soldiers:
+        print(', '.join(soldier["name"] for soldier in soldiers))
+    else:
+        print("There are not soldiers yet.")
 
 def handle_add_duty() -> None:
-    id = int(input("Enter soldier's ID: "))
-    duty_name = input("Enter duty's name: ")
-    day = input("Enter duty's day: ")
     try:
-        add_duty_to_soldier(id, duty_name, day)
+        soldier_id = int(input("Enter soldier's ID: "))
+        duty_name = input("Enter duty's name: ")
+        day = input("Enter duty's day: ")
+        add_duty_to_soldier(soldier_id, duty_name, day)
         print(f"V - {duty_name} adds.")
-    except KeyError as e:
+    except (KeyError, ValueError) as e:
         print('X -', e)
-    except ValueError as e:
-        print('X -', e)
-
 
 def handle_update_duty_status() -> None:
-    id = int(input("Enter soldier's Id: "))
-    duty = input("Enter duty's name: ")
-    new_status = input("Enter the status you want change for(completed/missed): ")
     try:
-        update_duty_status(id, duty, new_status)
+        soldier_id = int(input("Enter soldier's Id: "))
+        duty = input("Enter duty's name: ")
+        new_status = input("Enter the status you want change for(completed/missed): ")
+        update_duty_status(soldier_id, duty, new_status)
         print(f"V - {duty}'s status updated.")
-    except KeyError as e:
+    except (KeyError, ValueError) as e:
         print(f"X -", e)
-    except ValueError as e:
-        print(f"X -", e)
-
 
 def handle_view_soldier_duties() -> None:
-    id = int(input("Enter soldier's ID: "))
     try:
-        soldiers = get_soldier_duties(id)
-        if soldiers:
-            print("V - soldiers list:")
-            for soldier in soldiers:
-                print(*soldier, sep='\n')
+        soldier_id = int(input("Enter soldier's ID: ")) 
+        duties = get_soldier_duties(soldier_id)
+        if duties:
+            print("Duties list:")
+            for index, duty in enumerate(duties):
+                print(f'\t{index + 1}. {duty["name"]} on {duty["day"]} - {duty["status"]}')
         else:
-            print("V - no soldiers yet")
-    except KeyError as e:
+            print("There are not duties yet")
+    except (KeyError, ValueError) as e:
         print(f"X -", e)
 
 def main() -> None:
@@ -107,7 +102,6 @@ def main() -> None:
                 print("\nInvalid input.\nTry again.\n")
                 input("Press Enter to continue...")
                 system('clear')
-
 
 if __name__ == '__main__':
     main()
